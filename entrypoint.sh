@@ -1,15 +1,19 @@
 #!/bin/sh
 set -e
 
-chown -R www-data:www-data /var/www/html/challenge-softsul || true
+PROJECT_PATH="/var/www/html/challenge-softsul"
 
-mkdir -p /var/www/html/challenge-softsul/storage/logs
-chown -R www-data:www-data /var/www/html/challenge-softsul/storage /var/www/html/challenge-softsul/bootstrap/cache
-find /var/www/html/challenge-softsul/storage -type d -exec chmod 755 {} \;
-find /var/www/html/challenge-softsul/storage -type f -exec chmod 644 {} \;
+chown -R www-data:www-data "$PROJECT_PATH"
+chmod -R 777 "$PROJECT_PATH/storage" "$PROJECT_PATH/bootstrap/cache"
 
-touch /var/www/html/challenge-softsul/storage/logs/laravel.log
-chown www-data:www-data /var/www/html/challenge-softsul/storage/logs/laravel.log
-chmod 664 /var/www/html/challenge-softsul/storage/logs/laravel.log
+mkdir -p "$PROJECT_PATH/storage/logs"
+touch "$PROJECT_PATH/storage/logs/laravel.log"
+chmod 666 "$PROJECT_PATH/storage/logs/laravel.log"
 
-exec "$@"
+if [ ! -d "$PROJECT_PATH/vendor" ]; then
+    composer install --no-interaction --prefer-dist --optimize-autoloader
+fi
+
+php artisan migrate --force --no-interaction
+
+exec apache2-foreground
