@@ -1,0 +1,253 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Challenge Softsul",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/products/{id}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Exibir um produto pelo ID",
+                "operationId": "7ab21ddb713501f3d4c2914892c02a21",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do produto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Produto encontrado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Produto não encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Atualizar um produto existente",
+                "operationId": "6a7e11900844cd85cff66e662b82bd4c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do produto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Produto atualizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Produto não encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Excluir um produto",
+                "operationId": "e80a6ca46716acee6b47ea1ac91663c0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do produto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Produto excluído com sucesso"
+                    },
+                    "404": {
+                        "description": "Produto não encontrado"
+                    }
+                }
+            }
+        },
+        "/api/products": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Cadastrar um novo produto",
+                "operationId": "e8185e307706e2cd84bbcf5171e2f09d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Produto criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Product": {
+                "title": "Produto",
+                "description": "Representa um pedido/produto",
+                "required": [
+                    "id",
+                    "user_name",
+                    "order_date",
+                    "delivery_date",
+                    "status",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_name": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Artur Neves"
+                    },
+                    "order_date": {
+                        "description": "Data e hora do pedido",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-01-05 12:12:12"
+                    },
+                    "delivery_date": {
+                        "description": "Data e hora da entrega",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-01-10 15:30:00"
+                    },
+                    "status": {
+                        "description": "Status do pedido",
+                        "type": "string",
+                        "enum": [
+                            "pendente",
+                            "entregue",
+                            "cancelado"
+                        ],
+                        "example": "pendente"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-01-05 12:15:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-01-06 08:00:00"
+                    }
+                },
+                "type": "object"
+            },
+            "ProductRequest": {
+                "title": "Requisição de Produto",
+                "description": "Dados necessários para criar ou atualizar um produto",
+                "required": [
+                    "user_name",
+                    "order_date",
+                    "delivery_date",
+                    "status"
+                ],
+                "properties": {
+                    "user_name": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Artur Neves"
+                    },
+                    "order_date": {
+                        "description": "Formato obrigatório: Y-m-d H:i:s",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-01-05 12:12:12"
+                    },
+                    "delivery_date": {
+                        "description": "Deve ser posterior a 'order_date'",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-01-10 15:30:00"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "pendente",
+                            "entregue",
+                            "cancelado"
+                        ],
+                        "example": "pendente"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Products",
+            "description": "Products"
+        }
+    ]
+}
