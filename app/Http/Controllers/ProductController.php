@@ -14,29 +14,28 @@ class ProductController extends Controller
         ]);
     }
 
-
-    public function findById(Product $product)
+    public function show(Product $product)
     {
         return $this->response->setData($product)->setStatusCode(200);
     }
 
-    public function save(ProductRequest $request)
+    public function store(ProductRequest $request)
     {
-        $product = Product::create($request->all());
+        $product = Product::create($request->validated());
 
         return $this->response->setData($product)->setStatusCode(201);
     }
 
     public function update(Product $product, ProductRequest $request)
     {
-        $product->update($request->all());
+        $product->update($request->validated());
 
         return $this->response->setData($product)->setStatusCode(200);
     }
 
-    public function delete(Product $product)
+    public function destroy(Product $product)
     {
-       $product->delete();
+        $product->delete();
 
         return $this->response->setStatusCode(204);
     }

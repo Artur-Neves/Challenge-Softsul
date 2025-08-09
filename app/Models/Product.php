@@ -18,9 +18,10 @@ class Product extends Model
     ];
 
     protected $casts = [
-        'order_date' => 'datetime',
-        'delivery_date' => 'datetime',
-        'status' => ProductStatus::class,
+        'order_date'    => 'datetime:d/m/Y H:i:s',
+        'delivery_date' => 'datetime:d/m/Y H:i:s',
+        'status'        => ProductStatus::class,
+        'created_at'    => 'datetime:d/m/Y H:i:s',
+        'updated_at'    => 'datetime:d/m/Y H:i:s',
     ];
-     
 }
