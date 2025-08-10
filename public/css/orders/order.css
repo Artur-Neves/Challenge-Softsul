@@ -1,0 +1,24 @@
+.text-apresentation {
+    min-height: 10%;
+}
+
+.text-apresentation h1 {
+    font-size: 2.5em;
+    margin-bottom: 0.5em;
+}
+
+.table-orders {
+    flex: 1;
+}
+
+@media only screen and (max-width:500px) {
+    .text-apresentation h1 {
+        font-size: 2em;
+        margin-bottom: 0.5em;
+    }
+
+    .contact-icons a img {
+        height: 28px;
+        width: 105px;
+    }
+}

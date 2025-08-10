@@ -5,18 +5,18 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/products/{id}": {
+        "/api/orders/{id}": {
             "get": {
                 "tags": [
-                    "Products"
+                    "Orders"
                 ],
-                "summary": "Exibir um produto pelo ID",
+                "summary": "Exibir um pedido pelo ID",
                 "operationId": "7ab21ddb713501f3d4c2914892c02a21",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID do produto",
+                        "description": "ID do pedido",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -25,31 +25,31 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Produto encontrado com sucesso",
+                        "description": "Pedido encontrado com sucesso",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Product"
+                                    "$ref": "#/components/schemas/Order"
                                 }
                             }
                         }
                     },
                     "404": {
-                        "description": "Produto não encontrado"
+                        "description": "Pedido não encontrado"
                     }
                 }
             },
             "put": {
                 "tags": [
-                    "Products"
+                    "Orders"
                 ],
-                "summary": "Atualizar um produto existente",
+                "summary": "Atualizar um pedido existente",
                 "operationId": "6a7e11900844cd85cff66e662b82bd4c",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID do produto",
+                        "description": "ID do pedido",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -61,38 +61,38 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/ProductRequest"
+                                "$ref": "#/components/schemas/OrderRequest"
                             }
                         }
                     }
                 },
                 "responses": {
                     "200": {
-                        "description": "Produto atualizado com sucesso",
+                        "description": "Pedido atualizado com sucesso",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Product"
+                                    "$ref": "#/components/schemas/Order"
                                 }
                             }
                         }
                     },
                     "404": {
-                        "description": "Produto não encontrado"
+                        "description": "Pedido não encontrado"
                     }
                 }
             },
             "delete": {
                 "tags": [
-                    "Products"
+                    "Orders"
                 ],
-                "summary": "Excluir um produto",
+                "summary": "Excluir um pedido",
                 "operationId": "e80a6ca46716acee6b47ea1ac91663c0",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID do produto",
+                        "description": "ID do pedido",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -101,38 +101,38 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "Produto excluído com sucesso"
+                        "description": "Pedido excluído com sucesso"
                     },
                     "404": {
-                        "description": "Produto não encontrado"
+                        "description": "Pedido não encontrado"
                     }
                 }
             }
         },
-        "/api/products": {
+        "/api/orders": {
             "post": {
                 "tags": [
-                    "Products"
+                    "Orders"
                 ],
-                "summary": "Cadastrar um novo produto",
+                "summary": "Cadastrar um novo pedido",
                 "operationId": "e8185e307706e2cd84bbcf5171e2f09d",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/ProductRequest"
+                                "$ref": "#/components/schemas/OrderRequest"
                             }
                         }
                     }
                 },
                 "responses": {
                     "201": {
-                        "description": "Produto criado com sucesso",
+                        "description": "Pedido criado com sucesso",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Product"
+                                    "$ref": "#/components/schemas/Order"
                                 }
                             }
                         }
@@ -146,12 +146,12 @@
     },
     "components": {
         "schemas": {
-            "Product": {
-                "title": "Produto",
-                "description": "Representa um pedido/produto",
+            "Order": {
+                "title": "Pedido",
+                "description": "Representa um pedido",
                 "required": [
                     "id",
-                    "user_name",
+                    "customer_name",
                     "order_date",
                     "delivery_date",
                     "status",
@@ -163,7 +163,7 @@
                         "type": "integer",
                         "example": 1
                     },
-                    "user_name": {
+                    "customer_name": {
                         "type": "string",
                         "maxLength": 255,
                         "example": "Artur Neves"
@@ -203,17 +203,17 @@
                 },
                 "type": "object"
             },
-            "ProductRequest": {
-                "title": "Requisição de Produto",
-                "description": "Dados necessários para criar ou atualizar um produto",
+            "OrderRequest": {
+                "title": "Requisição de Pedido",
+                "description": "Dados necessários para criar ou atualizar um pedido",
                 "required": [
-                    "user_name",
+                    "customer_name",
                     "order_date",
                     "delivery_date",
                     "status"
                 ],
                 "properties": {
-                    "user_name": {
+                    "customer_name": {
                         "type": "string",
                         "maxLength": 255,
                         "example": "Artur Neves"
@@ -246,8 +246,8 @@
     },
     "tags": [
         {
-            "name": "Products",
-            "description": "Products"
+            "name": "Orders",
+            "description": "Orders"
         }
     ]
 }

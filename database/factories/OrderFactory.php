@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Enums\ProductStatus;
+use App\Enums\OrderStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Order>
  */
-class ProductFactory extends Factory
+class OrderFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,10 +18,10 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_name'     => $this->faker->name(),
+            'customer_name'     => $this->faker->name(),
             'order_date'    => $this->faker->dateTimeBetween('-1 month', 'now'),
             'delivery_date' => $this->faker->dateTimeBetween('now', '+1 month'),
-            'status'        => $this->faker->randomElement(ProductStatus::values()),
+            'status'        => $this->faker->randomElement(OrderStatus::values()),
         ];
     }
 }

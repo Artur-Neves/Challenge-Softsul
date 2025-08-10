@@ -4,7 +4,7 @@ namespace App\Enums;
 
 use PhpParser\Node\Expr\Cast\String_;
 
-enum ProductStatus: String
+enum OrderStatus: String
 {
     case PENDING = 'pendente';
     case DELIVERED = 'entregue';

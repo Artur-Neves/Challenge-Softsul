@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use App\Enums\ProductStatus;
+use App\Enums\OrderStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Order extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_name',
+        'customer_name',
         'order_date',
         'delivery_date',
         'status',
@@ -20,7 +20,7 @@ class Product extends Model
     protected $casts = [
         'order_date'    => 'datetime:d/m/Y H:i:s',
         'delivery_date' => 'datetime:d/m/Y H:i:s',
-        'status'        => ProductStatus::class,
+        'status'        => OrderStatus::class,
         'created_at'    => 'datetime:d/m/Y H:i:s',
         'updated_at'    => 'datetime:d/m/Y H:i:s',
     ];

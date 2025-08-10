@@ -13,4 +13,4 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::prefix("products")->group(base_path("routes/api/products.php"));
+Route::prefix("orders")->group(base_path("routes/api/orders.php"));

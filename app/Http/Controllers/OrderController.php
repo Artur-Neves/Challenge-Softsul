@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProductRequest;
-use App\Models\Product;
+use App\Http\Requests\OrderRequest;
+use App\Models\Order;
+use Yajra\DataTables\DataTables;
+
 /**
  * @OA\Schema(
- *     schema="Product",
+ *     schema="Order",
  *     type="object",
- *     title="Produto",
- *     description="Representa um pedido/produto",
- *     required={"id","user_name","order_date","delivery_date","status","created_at","updated_at"},
+ *     title="Pedido",
+ *     description="Representa um pedido",
+ *     required={"id","customer_name","order_date","delivery_date","status","created_at","updated_at"},
  *     @OA\Property(property="id", type="integer", example=1),
- *     @OA\Property(property="user_name", type="string", maxLength=255, example="Artur Neves"),
+ *     @OA\Property(property="customer_name", type="string", maxLength=255, example="Artur Neves"),
  *     @OA\Property(
  *         property="order_date",
  *         type="string",
@@ -49,12 +51,12 @@ use App\Models\Product;
  * )
 
  * @OA\Schema(
- *     schema="ProductRequest",
+ *     schema="OrderRequest",
  *     type="object",
- *     title="Requisição de Produto",
- *     description="Dados necessários para criar ou atualizar um produto",
- *     required={"user_name","order_date","delivery_date","status"},
- *     @OA\Property(property="user_name", type="string", maxLength=255, example="Artur Neves"),
+ *     title="Requisição de Pedido",
+ *     description="Dados necessários para criar ou atualizar um pedido",
+ *     required={"customer_name","order_date","delivery_date","status"},
+ *     @OA\Property(property="customer_name", type="string", maxLength=255, example="Artur Neves"),
  *     @OA\Property(
  *         property="order_date",
  *         type="string",
@@ -78,57 +80,60 @@ use App\Models\Product;
  * )
  */
 
-class ProductController extends Controller
+class OrderController extends Controller
 {
 
     public function index()
     {
-        return view('products.index', [
-            'products' => Product::all(),
-        ]);
+        return view('pages.orders.index');
+    }
+
+    public function getOrdersData()
+    {
+        return DataTables::of(Order::all())->make(true);
     }
 
     /**
      * @OA\Get(
-     *     path="/api/products/{id}",
-     *     summary="Exibir um produto pelo ID",
-     *     tags={"Products"},
+     *     path="/api/orders/{id}",
+     *     summary="Exibir um pedido pelo ID",
+     *     tags={"Orders"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
-     *         description="ID do produto",
+     *         description="ID do pedido",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Produto encontrado com sucesso",
-     *         @OA\JsonContent(ref="#/components/schemas/Product")
+     *         description="Pedido encontrado com sucesso",
+     *         @OA\JsonContent(ref="#/components/schemas/Order")
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Produto não encontrado"
+     *         description="Pedido não encontrado"
      *     )
      * )
      */
-    public function show(Product $product)
+    public function show(Order $order)
     {
-        return $this->response->setData($product)->setStatusCode(200);
+        return $this->response->setData($order)->setStatusCode(200);
     }
 
     /**
      * @OA\Post(
-     *     path="/api/products",
-     *     summary="Cadastrar um novo produto",
-     *     tags={"Products"},
+     *     path="/api/orders",
+     *     summary="Cadastrar um novo pedido",
+     *     tags={"Orders"},
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/ProductRequest")
+     *         @OA\JsonContent(ref="#/components/schemas/OrderRequest")
      *     ),
      *     @OA\Response(
      *         response=201,
-     *         description="Produto criado com sucesso",
-     *         @OA\JsonContent(ref="#/components/schemas/Product")
+     *         description="Pedido criado com sucesso",
+     *         @OA\JsonContent(ref="#/components/schemas/Order")
      *     ),
      *     @OA\Response(
      *         response=422,
@@ -136,72 +141,72 @@ class ProductController extends Controller
      *     )
      * )
      */
-    public function store(ProductRequest $request)
+    public function store(OrderRequest $request)
     {
-        $product = Product::create($request->validated());
+        $order = Order::create($request->validated());
 
-        return $this->response->setData($product)->setStatusCode(201);
+        return $this->response->setData($order)->setStatusCode(201);
     }
 
     /**
      * @OA\Put(
-     *     path="/api/products/{id}",
-     *     summary="Atualizar um produto existente",
-     *     tags={"Products"},
+     *     path="/api/orders/{id}",
+     *     summary="Atualizar um pedido existente",
+     *     tags={"Orders"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
-     *         description="ID do produto",
+     *         description="ID do pedido",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/ProductRequest")
+     *         @OA\JsonContent(ref="#/components/schemas/OrderRequest")
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Produto atualizado com sucesso",
-     *         @OA\JsonContent(ref="#/components/schemas/Product")
+     *         description="Pedido atualizado com sucesso",
+     *         @OA\JsonContent(ref="#/components/schemas/Order")
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Produto não encontrado"
+     *         description="Pedido não encontrado"
      *     )
      * )
      */
-    public function update(Product $product, ProductRequest $request)
+    public function update(Order $order, OrderRequest $request)
     {
-        $product->update($request->validated());
+        $order->update($request->validated());
 
-        return $this->response->setData($product)->setStatusCode(200);
+        return $this->response->setData($order)->setStatusCode(200);
     }
 
-     /**
+    /**
      * @OA\Delete(
-     *     path="/api/products/{id}",
-     *     summary="Excluir um produto",
-     *     tags={"Products"},
+     *     path="/api/orders/{id}",
+     *     summary="Excluir um pedido",
+     *     tags={"Orders"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
-     *         description="ID do produto",
+     *         description="ID do pedido",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Response(
      *         response=204,
-     *         description="Produto excluído com sucesso"
+     *         description="Pedido excluído com sucesso"
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Produto não encontrado"
+     *         description="Pedido não encontrado"
      *     )
      * )
      */
-    public function destroy(Product $product)
+    public function destroy(Order $order)
     {
-        $product->delete();
+        $order->delete();
 
         return $this->response->setStatusCode(204);
     }
