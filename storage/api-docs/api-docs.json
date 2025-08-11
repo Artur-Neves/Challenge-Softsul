@@ -1,17 +1,57 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "API Challenge Softsul",
+        "title": "API para o Desafio Técnico SoftSul",
+        "description": "Documentação da API RESTful desenvolvida como parte do processo seletivo para a vaga de Desenvolvedor Full Stack na SoftSul.",
+        "contact": {
+            "name": "Artur Neves Almeida",
+            "url": "https://www.linkedin.com/in/artur-neves-dev/",
+            "email": "nevesdev.ti@gmail.com"
+        },
+        "license": {
+            "name": "MIT License",
+            "url": "https://opensource.org/licenses/MIT"
+        },
         "version": "1.0.0"
     },
     "paths": {
+        "/api/orders/datatable": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Listar pedidos para DataTable",
+                "description": "Retorna todos os pedidos no formato compatível com o DataTables.",
+                "operationId": "48e19e4d5fd8ebb42e01b55c4c2718a7",
+                "responses": {
+                    "200": {
+                        "description": "Lista de pedidos retornada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Order"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/orders/{id}": {
             "get": {
                 "tags": [
                     "Orders"
                 ],
                 "summary": "Exibir um pedido pelo ID",
-                "operationId": "7ab21ddb713501f3d4c2914892c02a21",
+                "operationId": "c29621029e70f65247909d3e09031118",
                 "parameters": [
                     {
                         "name": "id",
@@ -44,7 +84,7 @@
                     "Orders"
                 ],
                 "summary": "Atualizar um pedido existente",
-                "operationId": "6a7e11900844cd85cff66e662b82bd4c",
+                "operationId": "6a7029f5510ca08e28a2d58a5fe19439",
                 "parameters": [
                     {
                         "name": "id",
@@ -87,7 +127,7 @@
                     "Orders"
                 ],
                 "summary": "Excluir um pedido",
-                "operationId": "e80a6ca46716acee6b47ea1ac91663c0",
+                "operationId": "303a7b797887b66c7790c4c187b54790",
                 "parameters": [
                     {
                         "name": "id",
@@ -115,7 +155,7 @@
                     "Orders"
                 ],
                 "summary": "Cadastrar um novo pedido",
-                "operationId": "e8185e307706e2cd84bbcf5171e2f09d",
+                "operationId": "d690d6834318e9b064df441e854de8b9",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -172,13 +212,13 @@
                         "description": "Data e hora do pedido",
                         "type": "string",
                         "format": "date-time",
-                        "example": "2025-01-05 12:12:12"
+                        "example": "01/05/2025 12:12:12"
                     },
                     "delivery_date": {
                         "description": "Data e hora da entrega",
                         "type": "string",
                         "format": "date-time",
-                        "example": "2025-01-10 15:30:00"
+                        "example": "01/10/2025 10:30:00"
                     },
                     "status": {
                         "description": "Status do pedido",

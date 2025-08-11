@@ -21,8 +21,8 @@ class OrderTest extends TestCase
 
         $response = $this->get('/orders');
 
-        $response->assertStatus(200)->assertViewHas('orders')
-            ->assertViewIs('orders.index');
+        $response->assertStatus(200)->assertViewHas('statuses')
+            ->assertViewIs('pages.orders.index');
     }
 
     /**
@@ -32,7 +32,7 @@ class OrderTest extends TestCase
     {
         Order::factory()->count(5)->create();
 
-        $response = $this->get('api/orders');
+        $response = $this->get('api/orders/datatable');
 
         $response->assertStatus(200)
             ->assertJsonCount(5);

@@ -83,12 +83,34 @@ use Yajra\DataTables\DataTables;
 
 class OrderController extends Controller
 {
-
+    /**
+     * Retorna a view para listar pedidos no painel administrativo.
+     */
     public function index()
     {
-        return view('pages.orders.index', [ 'statuses' => OrderStatus::values()]);
+        return view('pages.orders.index', ['statuses' => OrderStatus::values()]);
     }
 
+    /**
+     *  @OA\Get(
+     *     path="/api/orders/datatable",
+     *     summary="Listar pedidos para DataTable",
+     *     description="Retorna todos os pedidos no formato compatível com o DataTables.",
+     *     tags={"Orders"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de pedidos retornada com sucesso",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Order")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function getOrdersData()
     {
         return DataTables::of(Order::all())->make(true);
