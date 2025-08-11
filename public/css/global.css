@@ -1,8 +1,13 @@
 :root {
-    --color-primary: #80BCBD;
-    --color-secundary: #90EE90;
-    --color-terciary: #557B83;
-    --color-background: #D3F6F3;
+    --bg: #F6FBFD;
+    --surface: #EAF6FA;
+    --primary: #12596F;
+    --accent: #2FA3D9;
+    --muted: #B9D8E0;
+    --text: #0F2A33;
+    --text-muted: #456;
+    --shadow: 0 4px 10px rgba(17, 40, 42, 0.06);
+    --radius: 10px;
 }
 
 body {
@@ -11,8 +16,21 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background-color: var(--color-background);
-    color: #333;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.navbar-brand, footer div {
+    background: var(--primary);
+    color: white;
+    box-shadow: var(--shadow);
+}
+
+
+.panel {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3));
+    border-radius: calc(var(--radius) - 4px);
+    box-shadow: var(--shadow);
 }
 
 a {
@@ -59,13 +77,13 @@ select:focus {
 }
 
 .navbar {
-    background-color: var(--color-primary);
-    color: var(--color-secundary);
+    background-color: var(--primary);
+    color: var(--accent);
 }
 
 .modal .modal-header {
     padding-left: 2.1875rem;
-    background-color: var(--color-primary);
+    background-color: var(--primary);
     color: #fff;
     display: flex;
     flex-shrink: 0;
@@ -77,7 +95,7 @@ select:focus {
     border-top-right-radius: var(--bs-modal-inner-border-radius);
 }
 
-.modal-title{
+.modal-title {
     font-size: 1.5rem;
     font-weight: 700;
 }
@@ -91,7 +109,8 @@ select:focus {
     margin-left: 3px;
 }
 
-.modal .modal-body .form-control, .modal .modal-body .form-select  {
+.modal .modal-body .form-control,
+.modal .modal-body .form-select {
     padding: 7px 15px;
     border-radius: 15px;
 }
@@ -103,9 +122,9 @@ select:focus {
     border-bottom-right-radius: 20px;
 }
 
-.btn{
-    background-color: var(--color-primary);
-    color: var(--color-secundary);
+.btn {
+    background-color: var(--primary);
+    color: var(--surface);
     border: none;
     padding: 0.5rem 1rem;
     border-radius: 8px;
@@ -116,33 +135,34 @@ select:focus {
     align-items: center;
 }
 
-.bi{
+.bi {
     cursor: pointer;
 }
 
 
 .btn:hover {
-    background-color: var(--color-secundary);
-    color: var(--color-primary);
+    background-color: var(--muted);
+    color: var(--primary);
 }
 
 .btn:active {
-    background-color: var(--color-secundary) !important;
-    color: var(--color-primary) !important;
+    background-color: var(--accent) !important;
+    color: var(--surface) !important;
     scale: 0.97;
 }
 
 footer {
-    background-color: var(--color-primary);
-    color: var(--color-secundary);
+    background-color: var(--primary);
 }
 
-.form-control.is-invalid, .was-validated .form-control:valid,
-.form-control.is-invalid, .was-validated .form-control:invalid {
+.form-control.is-invalid,
+.was-validated .form-control:valid,
+.form-control.is-invalid,
+.was-validated .form-control:invalid {
     background-image: none !important;
-    padding-right: .75rem !important; 
+    padding-right: .75rem !important;
 }
 
-.was-validated .form-select:valid:not([multiple]):not([size]){
+.was-validated .form-select:valid:not([multiple]):not([size]) {
     --bs-form-select-bg-icon: none !important;
 }
