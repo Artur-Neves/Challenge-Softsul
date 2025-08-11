@@ -1,7 +1,7 @@
 @extends('templates.page')
 @section('content')
-    <div class="container d-flex flex-column justify-content-between gap-4  border border-2">
-        <div class="text-apresentation border-2 flex justify-center text-center border border-3 ">
+    <div class="container d-flex flex-column justify-content-between gap-4">
+        <div class="text-apresentation flex justify-center text-center">
             <h1>Artur Neves Almeida</h1>
             <div class="contact-icons d-flex flex-wrap justify-content-center gap-2">
                 <a href="https://github.com/Artur-Neves" target="_blank" rel="noopener noreferrer">
@@ -25,21 +25,13 @@
 
         </div>
 
-        <div class="table-orders flex border border-danger">
-            <div class="row">
-                <div class="col-sm-12 col-md-12 col-xxl-12">
-                    <div class="card" id="card-users">
-                        <div class="card-body px-2 p-xxl-3">
-                            <div class="table-responsive table-responsive-xxl mt-0">
-                                <table id="tableOrders"
-                                    class="table-hover display nowrap table table-borderless stripe display full-width">
-
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="table-orders flex">
+            <table id="tableOrders" class="table-hover display nowrap table table-borderless stripe display full-width">
+            </table>
         </div>
     </div>
 @stop
+
+
+@include('modals.addOrder')
+@include('modals.editOrder')

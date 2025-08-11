@@ -19,8 +19,8 @@ class OrderRequest extends FormRequest
     {
         return [
             "customer_name" => "required|string|max:255",
-            "order_date" => "required|date_format:Y-m-d H:i:s",
-            "delivery_date" => "required|date_format:Y-m-d H:i:s|after:order_date",
+            "order_date" => "required|date",
+            "delivery_date" => "required|date|after:order_date",
             "status" => ["required", Rule::enum(OrderStatus::class)],
         ];
     }
@@ -31,9 +31,9 @@ class OrderRequest extends FormRequest
             "customer_name.string" => "O nome do cliente deve ser do tipo alfa numérico.",
             "customer_name.max" => "O nome do cliente não pode exceder 255 caracteres.",
             "order_date.required" => "A data do pedido é obrigatória.",
-            "order_date.date_format" => "A data do pedido deve estar no formato Y-m-d H:i:s.",
+            "order_date.date" => "A data do pedido deve ser uma data válida.",
             "delivery_date.required" => "A data de entrega é obrigatória.",
-            "delivery_date.date_format" => "A data de entrega deve estar no formato Y-m-d H:i:s.",
+            "delivery_date.date" => "A data de entrega deve ser uma data válida.",
             "delivery_date.after" => "A data de entrega deve ser posterior à data do pedido.",
             "status.required" => "O status é obrigatório.",
             "status.*" => "O status deve ser um dos seguintes valores: " . implode(", ", OrderStatus::values()),

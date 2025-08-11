@@ -46,7 +46,9 @@ select {
 input:focus,
 textarea:focus,
 select:focus {
-    border-color: #007bff;
+    outline: none;
+    box-shadow: none;
+
 }
 
 .container {
@@ -56,13 +58,91 @@ select:focus {
     padding-top: 10px;
 }
 
-.navbar{
-background-color: var(--color-primary) ;
-color: var(--color-secundary);
-}
-
-footer{
+.navbar {
     background-color: var(--color-primary);
     color: var(--color-secundary);
 }
 
+.modal .modal-header {
+    padding-left: 2.1875rem;
+    background-color: var(--color-primary);
+    color: #fff;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--bs-modal-header-padding);
+    border-bottom: var(--bs-modal-header-border-width) solid var(--bs-modal-header-border-color);
+    border-top-left-radius: var(--bs-modal-inner-border-radius);
+    border-top-right-radius: var(--bs-modal-inner-border-radius);
+}
+
+.modal-title{
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.modal .modal-body label {
+    display: block;
+    margin-bottom: 10px;
+    color: #464646;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-left: 3px;
+}
+
+.modal .modal-body .form-control, .modal .modal-body .form-select  {
+    padding: 7px 15px;
+    border-radius: 15px;
+}
+
+.modal .modal-body {
+    background: #fff;
+    padding: 1.8rem;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.btn{
+    background-color: var(--color-primary);
+    color: var(--color-secundary);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.bi{
+    cursor: pointer;
+}
+
+
+.btn:hover {
+    background-color: var(--color-secundary);
+    color: var(--color-primary);
+}
+
+.btn:active {
+    background-color: var(--color-secundary) !important;
+    color: var(--color-primary) !important;
+    scale: 0.97;
+}
+
+footer {
+    background-color: var(--color-primary);
+    color: var(--color-secundary);
+}
+
+.form-control.is-invalid, .was-validated .form-control:valid,
+.form-control.is-invalid, .was-validated .form-control:invalid {
+    background-image: none !important;
+    padding-right: .75rem !important; 
+}
+
+.was-validated .form-select:valid:not([multiple]):not([size]){
+    --bs-form-select-bg-icon: none !important;
+}

@@ -1,10 +1,11 @@
 const baseUrl = "/api/orders/datatable";
-var userId = null;
+var orderId = null;
 $(document).ready(function () {
-    const formCreate = $("#createFormUser");
-    const btnCreateUser = $("#submitCreateUser");
-    const btnEditeUser = $("#submitEditUser");
-    const formsEdit = $("#editUserForm");
+    const formCreate = $("#createFormOrder");
+    const btnCreateOrder = $("#submitCreateOrder");
+    const btnEditeOrder = $("#submitEditOrder");
+    const formsEdit = $("#editOrderForm");
+    $(window).on('resize', constructDataTable(baseUrl));
 
     formCreate.on('submit', async function (event) {
         event.preventDefault();
@@ -16,46 +17,39 @@ $(document).ready(function () {
         else {
             $.ajax({
                 type: "POST",
-                url: "/api/users/store",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": csrfToken,
-                },
-                data: JSON.stringify(getDatasCreateUserByInputs()),
+                url: "/api/orders",
+                data: getDatasCreateOrderByInputs(),
                 beforeSend: function () {
-                    btnCreateUser.prop("disabled", true);
-                    btnCreateUser.html(
+                    btnCreateOrder.prop("disabled", true);
+                    btnCreateOrder.html(
                         '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>    Aguarde...</span>'
                     );
                 },
                 success: async function (response) {
-                    updateDataTableRows(baseUrl + getValueFields());
-                    Notiflix.Notify.success("Usuário criado com sucesso!!");
-                    closeModalCreateUser();
+                    updateDataTableRows(baseUrl);
+                    Notiflix.Notify.success("Pedido criado com sucesso!");
+                    closeModalCreateOrder();
                 },
                 error: function (error) {
                     Notiflix.Notify.warning(error.responseJSON.message);
-                    btnCreateUser.html("Criar Usuário");
-                    btnCreateUser.prop("disabled", false);
+                    btnCreateOrder.html("Criar Pedido");
+                    btnCreateOrder.prop("disabled", false);
                 },
             });
         }
     });
 
-    $('#btnLimpar').on('click', function () {
-        $("#formFilterUser").trigger("reset");
-    })
-
-    $("#tableOrders").on("click", "#iconEditUser", async function (event) {
-        userId = $(event.currentTarget).data('user-id');
-        await customFetch(`api/users/show/${userId}`, {
-            method: 'GET',
-            onSuccess: function (data) {
+    $("#tableOrders").on("click", "#iconEditOrder", async function (event) {
+        orderId = $(event.currentTarget).data('order-id');
+        $.ajax({
+            type: "GET",
+            url: `api/orders/${orderId}`,
+            success: function (data) {
                 setDatasInInputsEdit(data);
             },
-            onError: function (error) {
-                console.error("Erro ao buscar usuário", error);
-                Notiflix.Notify.failure("Ops.. Ocorreu um erro ao tentar buscar o usuário");
+            error: function (error) {
+                console.error("Erro ao buscar o pedido", error);
+                Notiflix.Notify.failure("Ops.. Ocorreu um erro ao tentar buscar o pedido");
             },
         });
     });
@@ -69,46 +63,44 @@ $(document).ready(function () {
             console.error(formsEdit.get(0).checkValidity());
         }
         else {
-            await customFetch(`api/users/update/${userId}`, {
-                method: 'PUT',
-                body: getDatasEditUserByInputs(),
+            $.ajax({
+                type: "PUT",
+                url: `api/orders/${orderId}`,
+                data: getDatasEditOrderByInputs(),
                 beforeSend: function () {
-                    btnEditeUser.prop("disabled", true);
-                    btnEditeUser.html(
+                    btnEditeOrder.prop("disabled", true);
+                    btnEditeOrder.html(
                         '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>    Aguarde...</span>'
                     );
                 },
-                onSuccess: function (data) {
-                    updateDataTableRows(baseUrl + getValueFields());
-                    Notiflix.Notify.success("Usuário editado com sucesso!");
-                    closeModalEditUser();
+                success: function (data) {
+                    updateDataTableRows(baseUrl);
+                    Notiflix.Notify.success("Pedido editado com sucesso!");
+                    closeModalEditOrder();
                 },
-                onError: function (error) {
-                    console.error("Erro ao editar usuário", error);
-                    Notiflix.Notify.failure(error.message);
+                error: function (error) {
+                    console.error("Erro ao editar pedido", error);
+                    Notiflix.Notify.warning(error.responseJSON.message);
                 },
             });
         }
     });
 
-    function closeModalCreateUser() {
+    function closeModalCreateOrder() {
         formCreate.trigger("reset");
-        $("#addUsersModal").modal("hide");
-        $('#createRoleUsuario').val(null).trigger('change');
+        $("#addOrderModal").modal("hide");
         formCreate.removeClass('was-validated');
-        btnCreateUser.prop("disabled", false);
-        btnCreateUser.html("Criar Usuário");
+        btnCreateOrder.prop("disabled", false);
+        btnCreateOrder.html("Criar Pedido");
     };
 
-    function closeModalEditUser() {
+    function closeModalEditOrder() {
         formsEdit.trigger("reset");
-        $("#modalEditUser").modal("hide");
-        // $('#editRoleUsuario').val(null).trigger('change');
+        $("#modalEditOrder").modal("hide");
         formsEdit.removeClass('was-validated');
-        btnEditeUser.prop("disabled", false);
-        btnEditeUser.html("Editar Usuário");
+        btnEditeOrder.prop("disabled", false);
+        btnEditeOrder.html("Editar Pedido");
     };
-
 
     function updateDataTableRows(url) {
         datatable = $(`#tableOrders`).DataTable();
@@ -116,58 +108,87 @@ $(document).ready(function () {
         constructDataTable(url);
     }
 
-    function getDatasCreateUserByInputs() {
-        const client_ddd_phone = $("#createUserDDD").val();
-        const client_ddi_phone = $("#createUserDDI").val();
-        const client_number_phone = $("#createUserTelefone").val();
-        const data_de_compra = $("#createUserDataDeCompra").val();
-        const data_de_renovacao = $("#createUserDataDeRenovacao").val().trim().length === 0 ? null : $("#createUserDataDeRenovacao").val();
-        const client_name = $("#createUserName").val();
-        const client_email = $("#createUserEmail").val();
-        const telefone = `${client_ddi_phone}${client_ddd_phone}${client_number_phone}`;
-        const plan = ($("#createSelectPlan").val() == "MENSAL" || $("#createSelectPlan").val() == "ANUAL") ? "CLIENTE" : $("#createSelectPlan").val();
-        const isReembolso = $("#createSelectStatusPlan").val() == "REEMBOLSO";
-        const role = [(isReembolso) ? "REEMBOLSO" : plan];
+    function getDatasCreateOrderByInputs() {
+        const customer_name = $("#createOrderCustomerName").val();
+        const status = $("#createSelectOrderStatus").val();
+        const order_date = $("#createOrderOrderDate").val();
+        const delivery_date = $("#createOrderDeliveryDate").val();
 
-        const user = {
-            name: client_name,
-            email: client_email,
-            telefone: telefone,
-            data_de_compra: data_de_compra,
-            data_de_renovacao: data_de_renovacao,
-            roles: role
+        const order = {
+            customer_name: customer_name,
+            status: status,
+            order_date: order_date,
+            delivery_date: delivery_date,
         }
 
-        return user
+        return order
     }
 
-    function getDatasEditUserByInputs() {
-        const client_name = $("#editUserName").val();
-        const data_de_compra = $("#editUserDataDeCompra").val();
-        const data_de_renovacao = $("#editUserDataDeRenovacao").val().trim().length === 0 ? null : $("#editUserDataDeRenovacao").val();
-        const plan = ($("#editSelectPlan").val() == "MENSAL" || $("#editSelectPlan").val() == "ANUAL") ? "CLIENTE" : $("#editSelectPlan").val();
-        const isReembolso = $("#editSelectStatusPlan").val() == "REEMBOLSO";
+    function getDatasEditOrderByInputs() {
+        const customer_name = $("#editOrderCustomerName").val();
+        const status = $("#editSelectOrderStatus").val();
+        const order_date = $("#editOrderOrderDate").val();
+        const delivery_date = $("#editOrderDeliveryDate").val();
 
-        const role = [(isReembolso) ? "REEMBOLSO" : plan];
-
-        const user = {
-            name: client_name,
-            roles: role,
-            data_de_compra: data_de_compra,
-            data_de_renovacao: data_de_renovacao
+        const order = {
+            customer_name: customer_name,
+            status: status,
+            order_date: order_date,
+            delivery_date: delivery_date,
         }
 
-        return user
+        return order
     }
 
+    function formatDateToInput(dateStr) {
+        const [datePart, timePart] = dateStr.split(' ');
+        const [day, month, year] = datePart.split('/');
+        const [hour, minute, seconds] = timePart.split(':');
+
+        return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}T${hour.padStart(2, '0')}:${minute.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
+    }
 
     function setDatasInInputsEdit(data) {
-        $("#editUserName").val(data.name);
-        $("#editUserEmail").val(data.email);
-        $("#editUserTelefone").val(data.telefone);
-        $("#editUserDataDeRenovacao").val(data.data_de_renovacao);
-        $("#editUserDataDeCompra").val(data.data_de_compra);
-        $("#editSelectPlan").val(data.plan);
-        $("#editSelectStatusPlan").val(data.status_plan);
+        $("#editOrderCustomerName").val(data.customer_name);
+        $("#editSelectOrderStatus").val(data.status);
+        $("#editOrderOrderDate").val(formatDateToInput(data.order_date));
+        $("#editOrderDeliveryDate").val(formatDateToInput(data.delivery_date));
+    }
+
+    $('#tableOrders tbody').on('click', '.bi-trash-fill', function (e) {
+        const $icon = $(this);
+        const orderId = $icon.data('order-id'); // pega do data-order-id
+
+        Notiflix.Confirm.show(
+            '⚠️ Confirmação de Exclusão',
+            `Deseja realmente excluir o pedido de id nº ${orderId} do cliente ${$icon.closest('tr').find('td').eq(1).text()}? Esta ação é irreversível.`,
+            'Sim, excluir',
+            'Cancelar',
+            function okCb() {
+                deleteOrder(orderId);
+            },
+            function cancelCb() {
+            },
+            {
+                width: '350px',
+                okButtonBackground: '#d33',
+                titleColor: '#d33'
+            }
+        );
+    });
+
+    function deleteOrder(orderId) {
+        $.ajax({
+            type: "DELETE",
+            url: `api/orders/${orderId}`,
+            success: function (data) {
+                updateDataTableRows(baseUrl);
+                Notiflix.Notify.success("Pedido excluído com sucesso!");
+            },
+            error: function (error) {
+                console.error("Erro ao excluir pedido", error);
+                Notiflix.Notify.warning(error.responseJSON.message);
+            },
+        });
     }
 });

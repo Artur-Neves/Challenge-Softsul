@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\OrderStatus;
 use App\Http\Requests\OrderRequest;
 use App\Models\Order;
 use Yajra\DataTables\DataTables;
@@ -85,7 +86,7 @@ class OrderController extends Controller
 
     public function index()
     {
-        return view('pages.orders.index');
+        return view('pages.orders.index', [ 'statuses' => OrderStatus::values()]);
     }
 
     public function getOrdersData()
