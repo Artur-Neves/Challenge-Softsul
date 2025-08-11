@@ -4,7 +4,16 @@
 &nbsp;
 ![Badge Finalizado](http://img.shields.io/static/v1?label=STATUS&message=finalizado)
 
-Documentação da API RESTful desenvolvida como parte do processo seletivo para a vaga de Desenvolvedor Full Stack na SoftSul. O desafio consiste em uma aplicação full stack com o Framework Laravel para a criação de CRUD para o modelo de Pedidos
+Documentação da API RESTful desenvolvida como parte do processo seletivo para a vaga de Desenvolvedor Full Stack na SoftSul.  
+O desafio consiste em uma aplicação full stack com o Framework Laravel para a criação de CRUD para o modelo de Pedidos.
+
+🌐 Acesse o projeto hospedado na Google Cloud:
+https://challenge-softsul-503131231721.southamerica-west1.run.app
+
+📄 Documentação completa da API:
+https://challenge-softsul-503131231721.southamerica-west1.run.app/api/documentation
+
+> **Observação:** A aplicação está hospedada em uma conta com recursos limitados. Por isso, algumas requisições podem apresentar tempos de resposta mais longos. Agradeço pela compreensão e paciência.
 
 <br>
 
@@ -13,8 +22,9 @@ Documentação da API RESTful desenvolvida como parte do processo seletivo para 
  - **Criação de Pedido**: Possibilidade de cadastrar novos pedidos informando nome do cliente, data do pedido, data de entrega e status.  
  - **Leitura de Pedido**: Listagem de todos os pedidos e visualização individual de um pedido específico.  
  - **Atualização de Pedido**: Edição dos dados de um pedido existente.  
- - **Exclusão de Pedido**: Remoção de um pedido do sistema.
- - **Gerenciamento de Pedidos**: Ordenação, paginação e pesquisa dinâmica diretamente na tabela
+ - **Exclusão de Pedido**: Remoção de um pedido do sistema.  
+ - **Gerenciamento de Pedidos**: Ordenação, paginação e pesquisa dinâmica diretamente na tabela.  
+
 <br>
 
 ## 🚀 Tecnologias principais
@@ -25,12 +35,13 @@ Documentação da API RESTful desenvolvida como parte do processo seletivo para 
 | Linguagem          | PHP 8.2                                         |
 | Framework          | Laravel 12                                      |
 | Frontend           | HTML, CSS, Bootstrap, JavaScript, Blade         |
-| Banco de dados     | MySQL                                           |
+| Banco de dados     | MySQL, Cloud SQL                                |
 | Documentação       | L5 Swagger, Swagger-PHP                         |
 | Tabelas dinâmicas  | Yajra Laravel Datatables                        |
 | Testes             | PHPUnit                                         |
 | Containerização    | Docker                                          |
 | Ferramentas de Dev | Laravel Tinker, Laravel Pail, Vite              |
+| Deploy             | Google Cloud Run                                |
 | Versionamento      | Git + GitHub                                    |
 
 </div>
@@ -47,6 +58,9 @@ Embora o teste técnico solicitasse apenas o desenvolvimento de um CRUD básico 
 - **🐳 Dockerização do Projeto**: Configuração para rodar todo o ambiente utilizando **Docker** e **Laravel Sail**, facilitando a instalação e execução.
 
 - **⚡ Pesquisas Performáticas com Yajra Datatables**: Integração com **Yajra Laravel Datatables** para melhorar a performance nas consultas e listagens.
+
+- **☁ Deploy na Google Cloud**: Implementação e configuração de **Cloud Run** para hospedar a aplicação e **Cloud SQL** para o banco de dados, garantindo escalabilidade e alta disponibilidade.
+
 
 <br>
 
